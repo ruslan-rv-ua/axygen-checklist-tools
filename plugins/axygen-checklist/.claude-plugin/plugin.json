@@ -1,7 +1,7 @@
 {
   "name": "axygen-checklist",
   "description": "Write and update test checklists for the Axygen Checklist NVDA add-on: JSON files a screen-reader tester walks by ear.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": {
     "name": "Ruslan Iskov",
     "email": "ruslan.rv.ua@gmail.com"
