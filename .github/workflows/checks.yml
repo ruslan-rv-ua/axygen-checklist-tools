@@ -67,8 +67,12 @@ jobs:
           status=0
           for name in checklist-format.md checklist-v1.schema.json; do
             local_copy="plugins/axygen-checklist/skills/write/references/$name"
-            curl --fail --silent --show-error --location \
-              "$ADDON_RAW/$ADDON_REF/docs/$name" --output "/tmp/$name"
+            if ! curl --fail --silent --show-error --location \
+              "$ADDON_RAW/$ADDON_REF/docs/$name" --output "/tmp/$name"; then
+              echo "::error file=$local_copy::docs/$name is not at $ADDON_REF of the add-on; until a release of the add-on carries it, this job is red by construction (CLAUDE.md)"
+              status=1
+              continue
+            fi
             if cmp --silent "/tmp/$name" "$local_copy"; then
               echo "$name matches $ADDON_REF"
             else
