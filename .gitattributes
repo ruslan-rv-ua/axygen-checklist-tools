@@ -1,0 +1,4 @@
+# Normalize line endings: LF both in the repository and in the working copy, as in the
+# add-on. The reference files are compared byte for byte with the add-on's copies,
+# and a CRLF checkout would make identical files differ.
+* text=auto eol=lf

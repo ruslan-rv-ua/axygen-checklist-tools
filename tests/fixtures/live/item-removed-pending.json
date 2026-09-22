@@ -1,0 +1,9 @@
+{
+  "checklist_name": "Live checklist",
+  "sections": [
+    {"section_name": "Controls", "items": [
+      {"id": 1, "text": "Menu opens with F10", "status": "passed"},
+      {"id": 2, "text": "Menu closes with Escape", "status": "failed", "comment": "Focus lands on the wrong control"}
+    ]}
+  ]
+}

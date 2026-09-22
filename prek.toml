@@ -1,0 +1,64 @@
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+default_language_version = { python = "python3.13" }
+
+[[repos]]
+repo = "meta"
+hooks = [
+  # ensures that exclude directives apply to any file in the repository.
+  { id = "check-useless-excludes" },
+  # ensures that the configured hooks apply to at least one file in the repository.
+  { id = "check-hooks-apply" }
+]
+
+# Built-in hooks reimplemented in Rust by prek. No repo clone or environment setup required.
+[[repos]]
+repo = "builtin"
+hooks = [
+  # `no-commit-to-branch` is deliberately not enabled, for the reason the add-on's
+  # prek.toml gives: `git flow release finish` commits on `main` when the merge is not a
+  # fast-forward, and a finish stopped halfway costs more than the hook is worth.
+  { id = "check-added-large-files" },
+  { id = "check-case-conflict" },
+  { id = "check-merge-conflict" },
+  { id = "trailing-whitespace", types_or = ["python", "markdown", "toml", "yaml", "json"] },
+  { id = "end-of-file-fixer", types_or = ["python", "markdown", "toml", "yaml", "json"] },
+  # The reference files are verbatim copies of the add-on's, which carry no BOM either.
+  { id = "fix-byte-order-marker", types_or = ["python", "markdown", "toml", "yaml", "json"] },
+  { id = "check-toml" },
+  { id = "check-yaml" },
+  { id = "check-json" },
+  { id = "check-vcs-permalinks" }
+]
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v5.0.0"
+hooks = [
+  { id = "check-ast" },
+  { id = "debug-statements" },
+  { id = "check-illegal-windows-names" }
+]
+
+[[repos]]
+# Keep in sync with the pinned Ruff version in pyproject.toml.
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.14.5"
+hooks = [
+  { id = "ruff", name = "lint with ruff", args = ["--fix"] },
+  { id = "ruff-format", name = "format with ruff" }
+]
+
+[[repos]]
+repo = "local"
+hooks = [
+  {
+    id = "pyright",
+    name = "type check with pyright",
+    entry = "uv run pyright",
+    language = "system",
+    types = ["python"]
+  }
+]

@@ -1,0 +1,79 @@
+name: Checks
+
+on:
+  push:
+    # The release and hotfix branches as well as the base ones, for the reason the
+    # add-on's workflow gives: a release finished with `git flow release finish` merges
+    # locally, so its edits are first seen on `main`, where a red check cannot be put
+    # right by an ordinary commit.
+    branches: [ main, develop, "release/**", "hotfix/**" ]
+  pull_request:
+  schedule:
+    # Weekly, so a change to the reference files in the add-on turns this repository
+    # red without waiting for a commit here (CLAUDE.md, "Еталон").
+    - cron: "0 6 * * 1"
+
+env:
+  # The add-on ref the reference files are compared with. `main`, because the plugin
+  # writes files for the released add-on. This is the one place the ref is named.
+  ADDON_REF: main
+  ADDON_RAW: https://raw.githubusercontent.com/ruslan-rv-ua/axygen-checklist
+
+jobs:
+  checks:
+    name: Lint, type check and unit tests
+    strategy:
+      matrix:
+        # Both: the validator runs wherever the agent runs, and the two differ in
+        # paths, temporary directories and default encodings.
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.0.1
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Lint and format
+        run: uv run prek run --all-files
+
+      - name: Unit tests
+        run: uv run python -m unittest discover -s tests -v
+
+      # The tests import the script; this runs it the way the skill tells the agent to,
+      # so a broken inline metadata block fails here and not on someone else's machine.
+      - name: Run the validator as a script
+        run: uv run --script plugins/axygen-checklist/skills/write/scripts/validate.py tests/fixtures/valid.json
+
+  reference:
+    name: Reference files match the add-on
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Compare byte for byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          status=0
+          for name in checklist-format.md checklist-v1.schema.json; do
+            local_copy="plugins/axygen-checklist/skills/write/references/$name"
+            curl --fail --silent --show-error --location \
+              "$ADDON_RAW/$ADDON_REF/docs/$name" --output "/tmp/$name"
+            if cmp --silent "/tmp/$name" "$local_copy"; then
+              echo "$name matches $ADDON_REF"
+            else
+              echo "::error file=$local_copy::$name differs from docs/$name at $ADDON_REF of the add-on; copy it verbatim and release a patch"
+              status=1
+            fi
+          done
+          exit $status

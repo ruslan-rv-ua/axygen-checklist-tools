@@ -1,0 +1,13 @@
+{
+  "checklist_name": "Unknown fields the author meant",
+  "author": "someone",
+  "sections": [
+    {
+      "section_name": "Controls",
+      "section_note": "A field the add-on keeps and a future version may read",
+      "items": [
+        {"id": 1, "text": "Menu opens with F10", "ticket": "APP-42"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "checklist_name": "Fragments that do not form",
+  "sections": [
+    {"section_name": "Controls", "items": [
+      {"id": 1, "text": "Press `Enter and listen"},
+      {"id": 2, "text": "Two backticks `` in a row"},
+      {"id": 3, "text": "Fine here", "note": "A fragment across a line break: `first line\nsecond line`"}
+    ]}
+  ]
+}

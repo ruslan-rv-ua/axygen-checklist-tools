@@ -1,0 +1,62 @@
+[project]
+name = "axygen-checklist-tools"
+version = "0.0.0"
+description = "Tools for writing checklists for the Axygen Checklist NVDA add-on"
+maintainers = [
+	{name = "Ruslan Iskov", email = "ruslan.rv.ua@gmail.com"},
+]
+requires-python = ">=3.13,<3.14"
+readme = "README.md"
+# Nothing here is a library. The validator is a PEP 723 script that declares its own
+# dependency and runs with `uv run --script`; everything below is tooling for this
+# repository, declared as PEP 735 dependency groups.
+dependencies = []
+
+# No package is built from this repository: the plugin is a folder of files that Claude
+# Code reads as they are. Saying so keeps `uv sync` from looking for one.
+[tool.uv]
+package = false
+
+[dependency-groups]
+lint = [
+	"ruff==0.14.5",
+	"prek==0.4.8",
+	"pyright[nodejs]==1.1.407",
+]
+# The tests import the validator, so they need what it declares for itself.
+test = [
+	"jsonschema==4.26.0",
+]
+dev = [
+	{ include-group = "lint" },
+	{ include-group = "test" },
+]
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "strict"
+
+include = [
+	"plugins",
+	"tests",
+]
+
+exclude = [
+	".git",
+	"__pycache__",
+	".venv",
+]
+
+# The tests load the script by path, so its module is unknown to pyright there.
+[[tool.pyright.executionEnvironments]]
+root = "tests"
+reportUnknownMemberType = false
+reportUnknownArgumentType = false
+reportUnknownVariableType = false

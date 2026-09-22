@@ -1,0 +1,20 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ruslan-rv-ua/axygen-checklist/main/docs/checklist-v1.schema.json",
+  "format_version": 1,
+  "checklist_name": "Settings dialog",
+  "sections": [
+    {
+      "section_name": "Preconditions",
+      "items": [
+        {"id": 1, "text": "Start the app with `--reset-settings`. The main window opens", "note": "The flag wipes the profile; that is expected"}
+      ]
+    },
+    {
+      "section_name": "Controls",
+      "items": [
+        {"id": 2, "text": "Press Ctrl plus comma. The settings dialog opens and the screen reader names it"},
+        {"id": 3, "text": "Tab through the dialog. Every control is announced with a name and a role"}
+      ]
+    }
+  ]
+}

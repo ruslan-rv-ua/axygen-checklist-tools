@@ -1,0 +1,10 @@
+{
+  "checklist_name": "Results without a snapshot",
+  "sections": [
+    {"section_name": "Controls", "items": [
+      {"id": 1, "text": "Menu opens with F10", "status": "passed"},
+      {"id": 2, "text": "Menu closes with Escape", "comment": "Closes, but focus lands on the wrong control"},
+      {"id": 3, "text": "Pending and silent"}
+    ]}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "axygen-checklist-tools",
+  "description": "Tools for writing checklists for the Axygen Checklist NVDA add-on",
+  "owner": {
+    "name": "Ruslan Iskov",
+    "email": "ruslan.rv.ua@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "axygen-checklist",
+      "source": "./plugins/axygen-checklist",
+      "description": "Write and update test checklists for the Axygen Checklist NVDA add-on: JSON files a screen-reader tester walks by ear.",
+      "category": "testing",
+      "tags": ["nvda", "accessibility", "testing", "checklist", "screen-reader"]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "checklist_name": "Misspelled optional keys",
+  "sections": [
+    {"section_name": "Controls", "items": [
+      {"id": 1, "text": "Menu opens with F10", "stauts": "passed"},
+      {"id": 2, "text": "Menu closes with Escape", "notes": "Hint that nobody will hear"},
+      {"id": 3, "text": "Case matters", "Status": "passed"}
+    ]}
+  ]
+}

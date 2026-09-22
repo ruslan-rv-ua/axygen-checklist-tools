@@ -1,0 +1,7 @@
+{
+  "checklist_name": "Duplicate id",
+  "sections": [
+    {"section_name": "One", "items": [{"id": 1, "text": "First"}]},
+    {"section_name": "Two", "items": [{"id": 1, "text": "Second"}]}
+  ]
+}
